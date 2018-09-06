@@ -46,8 +46,6 @@ class TrackController extends Controller
         return TrackResource($track);
     }
 
-
-
     /**
      * Update the specified resource in storage.
      *

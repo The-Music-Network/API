@@ -14,9 +14,3 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
-Auth::routes();
-
-Route::get('/', function() {
-    return File::get(public_path() . '/docs/index.html');
-});
