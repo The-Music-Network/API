@@ -44,3 +44,5 @@ By using the Route::resource, the corresponding controller automatically has the
 </tr>
 </tbody>
 </table>
+
+AS well as the GET endpoints for creating and editting a resource, which is not needed.
