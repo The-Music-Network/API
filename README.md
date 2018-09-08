@@ -4,7 +4,7 @@ This is the backend API for The-Music-Network
 ## Resources
 
 <h4>Actions Handled By Resource Controller</h4>
-### Notice, we define basic CRUD api endpoints as a single resource route in routes/api.php:
+<b>Notice, we define basic CRUD api endpoints as a single resource route in routes/api.php:</b>
 ```
 Route::resource('/tracks', 'TrackController');
 Route::resource('/users', 'UserController');
