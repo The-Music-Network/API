@@ -2,7 +2,15 @@
 This is the backend API for The-Music-Network
 
 ## Resources
+
 <h4>Actions Handled By Resource Controller</h4>
+### Notice, we define basic CRUD api endpoints as a single resource route in routes/api.php:
+```
+Route::resource('/tracks', 'TrackController');
+Route::resource('/users', 'UserController');
+```
+
+By using the Route::resource, the corresponding controller automatically has the following actions and routes:
 <table>
 <thead>
 <tr>
@@ -15,45 +23,45 @@ This is the backend API for The-Music-Network
 <tbody>
 <tr>
 <td>GET</td>
-<td><code>/photos</code></td>
+<td><code>/users</code></td>
 <td>index</td>
-<td>photos.index</td>
+<td>users.index</td>
 </tr>
 <tr>
 <td>GET</td>
-<td><code>/photos/create</code></td>
+<td><code>/users/create</code></td>
 <td>create</td>
-<td>photos.create</td>
+<td>users.create</td>
 </tr>
 <tr>
 <td>POST</td>
-<td><code>/photos</code></td>
+<td><code>/users</code></td>
 <td>store</td>
-<td>photos.store</td>
+<td>users.store</td>
 </tr>
 <tr>
 <td>GET</td>
-<td><code>/photos/{photo}</code></td>
+<td><code>/users/{photo}</code></td>
 <td>show</td>
-<td>photos.show</td>
+<td>users.show</td>
 </tr>
 <tr>
 <td>GET</td>
-<td><code>/photos/{photo}/edit</code></td>
+<td><code>/users/{photo}/edit</code></td>
 <td>edit</td>
-<td>photos.edit</td>
+<td>users.edit</td>
 </tr>
 <tr>
 <td>PUT/PATCH</td>
-<td><code>/photos/{photo}</code></td>
+<td><code>/users/{photo}</code></td>
 <td>update</td>
-<td>photos.update</td>
+<td>users.update</td>
 </tr>
 <tr>
 <td>DELETE</td>
-<td><code>/photos/{photo}</code></td>
+<td><code>/users/{photo}</code></td>
 <td>destroy</td>
-<td>photos.destroy</td>
+<td>users.destroy</td>
 </tr>
 </tbody>
 </table>
