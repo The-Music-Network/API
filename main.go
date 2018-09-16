@@ -2,9 +2,9 @@ package main
 
 import (
 	/* Inner package dependencies */
-	"github.com/jaylevin/TMN-API/models"
-	"github.com/jaylevin/TMN-API/controllers/middleware"
 	"github.com/jaylevin/TMN-API/config"
+	"github.com/jaylevin/TMN-API/controllers/middleware"
+	"github.com/jaylevin/TMN-API/models"
 
 	/* Golang SDK packages */
 	"errors"

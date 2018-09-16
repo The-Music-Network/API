@@ -1,12 +1,12 @@
 package middleware
 
 import (
+	"encoding/json"
+	"github.com/jaylevin/TMN-API/errs"
 	"github.com/jinzhu/gorm"
 	"log"
 	"net/http"
 	"net/http/httptest"
-	"encoding/json"
-	"github.com/jaylevin/TMN-API/errs"
 )
 
 // Acts as a middle man to the http.HandlerFunc function
@@ -16,11 +16,11 @@ type MetaDb struct {
 }
 
 type Response struct {
-	Status int `json:"status"`
+	Status   int         `json:"status"`
 	Response interface{} `json:"response"`
 }
 
-type MetaDbFunc func(recorder *httptest.ResponseRecorder, r *http.Request, db *gorm.DB) (error)
+type MetaDbFunc func(recorder *httptest.ResponseRecorder, r *http.Request, db *gorm.DB) error
 
 func (this *MetaDb) Handler(f MetaDbFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, request *http.Request) {
@@ -40,7 +40,6 @@ func (this *MetaDb) Handler(f MetaDbFunc) http.HandlerFunc {
 			}
 		}
 
-
 		// Write the response to buffer
 		w.Write(this.manufactureResponse(resp, request))
 
@@ -51,8 +50,8 @@ func (this *MetaDb) Handler(f MetaDbFunc) http.HandlerFunc {
 
 /* Manufactures the JSON response to be returned to the client */
 func (this *MetaDb) manufactureResponse(response interface{}, request *http.Request) []byte {
-	responseStruct := Response {
-		Status: this.Recorder.Code,
+	responseStruct := Response{
+		Status:   this.Recorder.Code,
 		Response: response,
 	}
 

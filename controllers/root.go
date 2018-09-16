@@ -40,4 +40,3 @@ func GetRoot(recorder *httptest.ResponseRecorder, request *http.Request, db *gor
 	recorder.Write(json)
 	return nil
 }
-

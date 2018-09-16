@@ -1,12 +1,12 @@
 package errs
 
 import (
+	"bytes"
+	"errors"
+	"fmt"
+	"log"
 	"runtime"
 	"strings"
-	"errors"
-	"log"
-	"bytes"
-	"fmt"
 )
 
 type Error struct {
@@ -29,7 +29,7 @@ func New(statusCode int, message string) *Error {
 	return &Error{
 		root:   errors.New(message),
 		frames: []frame{newFrame()},
-		code: statusCode,
+		code:   statusCode,
 	}
 }
 

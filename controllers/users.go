@@ -3,16 +3,15 @@ package controllers
 import (
 	"encoding/json"
 	"github.com/gorilla/mux"
+	"github.com/jaylevin/TMN-API/database"
+	"github.com/jaylevin/TMN-API/errs"
 	"github.com/jaylevin/TMN-API/models"
 	"github.com/jinzhu/gorm"
 	"log"
 	"net/http"
-	"strconv"
 	"net/http/httptest"
-	"github.com/jaylevin/TMN-API/errs"
-	"github.com/jaylevin/TMN-API/database"
+	"strconv"
 )
-
 
 /*********************************************************************************************************************
  * Controller Action: ShowUser
@@ -43,7 +42,7 @@ func ShowUser(recorder *httptest.ResponseRecorder, r *http.Request, db *gorm.DB)
 
 	resp, err := json.Marshal(&user)
 	if err != nil {
-		return errs.New(400, "Error marshalling user into JSON!: " + err.Error())
+		return errs.New(400, "Error marshalling user into JSON!: "+err.Error())
 	}
 
 	recorder.Write(resp)
@@ -73,7 +72,7 @@ func GetUsers(recorder *httptest.ResponseRecorder, r *http.Request, db *gorm.DB)
 
 	json, err := json.Marshal(&users)
 	if err != nil {
-		return errs.New(400, "Error marshalling users into JSON!: " + err.Error())
+		return errs.New(400, "Error marshalling users into JSON!: "+err.Error())
 	}
 
 	recorder.Write(json)
@@ -103,7 +102,7 @@ func CreateUser(recorder *httptest.ResponseRecorder, r *http.Request, db *gorm.D
 
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
-		return errs.New(400, "Bad request, error decoding JSON request: " + err.Error())
+		return errs.New(400, "Bad request, error decoding JSON request: "+err.Error())
 	}
 	defer r.Body.Close()
 
@@ -114,7 +113,7 @@ func CreateUser(recorder *httptest.ResponseRecorder, r *http.Request, db *gorm.D
 
 	json, err := json.Marshal(&user)
 	if err != nil {
-		return errs.New(400, "Error marshalling users into JSON!: " + err.Error())
+		return errs.New(400, "Error marshalling users into JSON!: "+err.Error())
 	}
 
 	recorder.WriteHeader(201)
@@ -156,24 +155,23 @@ func UpdateUser(recorder *httptest.ResponseRecorder, r *http.Request, db *gorm.D
 
 	err = json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
-		return errs.New(400, "Error decoding JSON request body: " + err.Error())
+		return errs.New(400, "Error decoding JSON request body: "+err.Error())
 	}
 	defer r.Body.Close()
 
 	result := db.Save(user)
 	if result.Error != nil {
-		return errs.New(400,  result.Error.Error())
+		return errs.New(400, result.Error.Error())
 	}
 
 	json, err := json.Marshal(&user)
 	if err != nil {
-		return errs.New(400, "Error marshalling users into JSON!: " + err.Error())
+		return errs.New(400, "Error marshalling users into JSON!: "+err.Error())
 	}
 
 	recorder.Write(json)
 	return nil
 }
-
 
 /*********************************************************************************************************************
  * Controller Action: DeleteUser

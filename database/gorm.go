@@ -1,8 +1,8 @@
 package database
 
 import (
-	"github.com/jinzhu/gorm"
 	"github.com/jaylevin/TMN-API/errs"
+	"github.com/jinzhu/gorm"
 )
 
 // Just a wrapper function for dynamic error handling
