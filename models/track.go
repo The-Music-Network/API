@@ -1,8 +1,8 @@
 package models
 
 type Track struct {
-	Id      uint
-	User_id uint
-	Name    string
-	Url     string
+	Id      uint   `json:"id"`
+	User_id uint   `json:"user_id"`
+	Name    string `json:"name"`
+	Url     string `json:"url"`
 }

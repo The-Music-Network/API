@@ -8,6 +8,7 @@ import (
 	"net/http/httptest"
 )
 
+// This is unnecessary, but makes things easier for JSON stuff.
 type RootResponse struct {
 	Msg string
 }
