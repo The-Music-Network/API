@@ -63,6 +63,7 @@ func (this *MetaDb) manufactureResponse(response interface{}, request *http.Requ
 
 	// If the user wants the output pretty, indent the raw json.
 	prettify, ok := request.URL.Query()["prettify"]
+	log.Println("Prettify? ", ok)
 	if ok {
 		if prettify[0] == "true" {
 			jsonResp = Prettify(request, jsonResp)

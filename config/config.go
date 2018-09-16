@@ -15,8 +15,6 @@ type Config struct {
 
 }
 
-// If the file is not found, (nil, nil) is returned to make it easy for the
-// caller to decide to create one or whatever.
 func Load(filename string) (*Config, error) {
 	f, err := os.Open(filename)
 	if os.IsNotExist(err) {

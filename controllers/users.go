@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"strconv"
+	"strings"
 )
 
 /*********************************************************************************************************************
@@ -68,14 +69,22 @@ func ShowUser(recorder *httptest.ResponseRecorder, r *http.Request, db *gorm.DB)
 func GetUsers(recorder *httptest.ResponseRecorder, r *http.Request, db *gorm.DB) error {
 
 	users := make([]models.User, 0)
-	db.Find(&users)
+
+	queries, ok := r.URL.Query()["name"]
+	if ok && queries != nil{
+		names := strings.Split(queries[0], ",")
+		log.Println(names)
+		db.Where("name in (?)", names).Find(&users)
+	} else {
+		db.Find(&users)
+	}
 
 	json, err := json.Marshal(&users)
 	if err != nil {
 		return errs.New(400, "Error marshalling users into JSON!: "+err.Error())
 	}
-
 	recorder.Write(json)
+
 	return nil
 }
 
