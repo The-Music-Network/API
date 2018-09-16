@@ -1,11 +1,10 @@
-package database
+package middleware
 
 import (
 	"github.com/jinzhu/gorm"
 	"log"
 	"net/http"
 	"net/http/httptest"
-	"github.com/jaylevin/TMN-API/controllers/middleware"
 )
 
 // MetaDb is an attempt to simplify the use of the data source in a
@@ -30,7 +29,7 @@ func (this *MetaDb) Handler(f MetaDbFunc) http.HandlerFunc {
 
 		if ok {
 			if prettify[0] == "true" {
-				out = middleware.Prettify(request, this.Recorder.Body.Bytes())
+				out = Prettify(request, this.Recorder.Body.Bytes())
 			}
 		}
 

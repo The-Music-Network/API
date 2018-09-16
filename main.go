@@ -1,21 +1,24 @@
 package main
 
 import (
+	/* Inner package dependencies */
 	"github.com/jaylevin/TMN-API/models"
+	"github.com/jaylevin/TMN-API/controllers/middleware"
+	"github.com/jaylevin/TMN-API/config"
 
-	_ "github.com/jinzhu/gorm/dialects/mysql"
-	_ "github.com/jinzhu/gorm/dialects/sqlite"
-
+	/* Golang SDK packages */
 	"errors"
 	"flag"
 	"fmt"
-	"github.com/gorilla/mux"
-	"github.com/jaylevin/TMN-API/config"
-	"github.com/jaylevin/TMN-API/database"
-	"github.com/jinzhu/gorm"
 	"log"
 	"net/http"
 	"net/http/httptest"
+
+	/* Remote package dependencies */
+	"github.com/gorilla/mux"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 
 func main() {
@@ -28,7 +31,7 @@ func main() {
 	var db *gorm.DB
 	switch conf.DbDriver {
 	case "sqlite":
-		db, err = gorm.Open("sqlite3", conf.SQLite.FilePath)
+		db, err = gorm.Open("sqlite", conf.SQLite.FilePath)
 	case "mysql":
 		db, err = gorm.Open("mysql", conf.MySQL.ConnectionString())
 	}
@@ -48,7 +51,7 @@ func main() {
 	defer db.Close()
 
 	// MetaDB is passed to our route controllers for database manipulation on http request.
-	metaDb := &database.MetaDb{Db: db, Recorder: httptest.NewRecorder()}
+	metaDb := &middleware.MetaDb{Db: db, Recorder: httptest.NewRecorder()}
 
 	// Creates tables based off of the User & Track structs in the 'models' package
 	db.AutoMigrate(&models.User{})
