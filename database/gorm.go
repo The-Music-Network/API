@@ -5,6 +5,7 @@ import (
 	"github.com/jaylevin/TMN-API/errs"
 )
 
+// Just a wrapper function for dynamic error handling
 func GetRecord(db *gorm.DB, t interface{}, conditions ...interface{}) (interface{}, error) {
 	result := db.First(t, conditions)
 	if result.Error != nil {

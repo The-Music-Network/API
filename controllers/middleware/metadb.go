@@ -40,6 +40,7 @@ func (this *MetaDb) Handler(f MetaDbFunc) http.HandlerFunc {
 			}
 		}
 
+
 		// Write the response to buffer
 		w.Write(this.manufactureResponse(resp, request))
 
