@@ -1,1 +1,0 @@
-{"SQLite":{"UseMemory":false,"FilePath":"tmn-api.sqlite"},"MySQL":{"Database":"tmn","Host":"localhost","MaxConnections":0,"Password":"banditrebel","Port":3306,"Username":"root"},"DbDriver":"mysql","Port":8080}
