@@ -2,9 +2,10 @@ package main
 
 import (
 	/* Inner package dependencies */
-	"github.com/jaylevin/TMN-API/config"
-	"github.com/jaylevin/TMN-API/controllers/middleware"
-	"github.com/jaylevin/TMN-API/models"
+	"github.com/The-Music-Network/TMN-API/config"
+	"github.com/The-Music-Network/TMN-API/middleware"
+	"github.com/The-Music-Network/TMN-API/components/tracks"
+	"github.com/The-Music-Network/TMN-API/components/users"
 
 	/* Golang SDK packages */
 	"errors"
@@ -54,8 +55,8 @@ func main() {
 	metaDb := &middleware.MetaDb{Db: db, Recorder: httptest.NewRecorder()}
 
 	// Creates tables based off of the User & Track structs in the 'models' package
-	db.AutoMigrate(&models.User{})
-	db.AutoMigrate(&models.Track{})
+	db.AutoMigrate(&users.User{})
+	db.AutoMigrate(&tracks.Track{})
 	r := mux.NewRouter()
 
 	// Initialize our routes, and set up handler functions (controllers)

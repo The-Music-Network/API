@@ -1,0 +1,41 @@
+{
+	"ImportPath": "github.com/The-Music-Network/TMN-API",
+	"GoVersion": "go1.10",
+	"GodepVersion": "v80",
+	"Deps": [
+		{
+			"ImportPath": "github.com/go-sql-driver/mysql",
+			"Comment": "v1.4.0-5-g99ff426",
+			"Rev": "99ff426eb706cffe92ff3d058e168b278cabf7c7"
+		},
+		{
+			"ImportPath": "github.com/gorilla/mux",
+			"Comment": "v1.6.2-9-g9e1f595",
+			"Rev": "9e1f5955c0d22b55d9e20d6faa28589f83b2faca"
+		},
+		{
+			"ImportPath": "github.com/jinzhu/gorm",
+			"Comment": "v1.9.1-30-g5be9bd3",
+			"Rev": "5be9bd34135805e0332b993378864b159784d8a8"
+		},
+		{
+			"ImportPath": "github.com/jinzhu/gorm/dialects/mysql",
+			"Comment": "v1.9.1-30-g5be9bd3",
+			"Rev": "5be9bd34135805e0332b993378864b159784d8a8"
+		},
+		{
+			"ImportPath": "github.com/jinzhu/gorm/dialects/sqlite",
+			"Comment": "v1.9.1-30-g5be9bd3",
+			"Rev": "5be9bd34135805e0332b993378864b159784d8a8"
+		},
+		{
+			"ImportPath": "github.com/jinzhu/inflection",
+			"Rev": "04140366298a54a039076d798123ffa108fff46c"
+		},
+		{
+			"ImportPath": "github.com/mattn/go-sqlite3",
+			"Comment": "v1.9.0-4-gb3511bf",
+			"Rev": "b3511bfdd742af558b54eb6160aca9446d762a19"
+		}
+	]
+}
