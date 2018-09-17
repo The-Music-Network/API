@@ -31,7 +31,7 @@ func main() {
 	var db *gorm.DB
 	switch conf.DbDriver {
 	case "sqlite":
-		db, err = gorm.Open("sqlite", conf.SQLite.FilePath)
+		db, err = gorm.Open("sqlite3", conf.SQLite.FilePath)
 	case "mysql":
 		db, err = gorm.Open("mysql", conf.MySQL.ConnectionString())
 	}

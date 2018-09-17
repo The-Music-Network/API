@@ -7,6 +7,8 @@ import (
 	"log"
 	"net/http"
 	"net/http/httptest"
+	"bytes"
+	"fmt"
 )
 
 // Acts as a middle man to the http.HandlerFunc function
@@ -20,28 +22,75 @@ type Response struct {
 	Response interface{} `json:"response"`
 }
 
+func newResponse(status int, response interface{}) *Response {
+	return &Response {
+		Status: status,
+		Response: response,
+	}
+}
+type OrderedMap struct {
+	Order []string
+	Map map[string]string
+}
+
+func (om OrderedMap) MarshalJSON() ([]byte, error) {
+	var b []byte
+	buf:=bytes.NewBuffer(b)
+	buf.WriteRune('{')
+	l:=len(om.Order)
+	for i,key:=range om.Order {
+		km,err:=json.Marshal(key)
+		if err!=nil { return nil,err }
+		buf.Write(km)
+		buf.WriteRune(':')
+		vm,err:=json.Marshal(om.Map[key])
+		if err!=nil { return nil,err }
+		buf.Write(vm)
+		if i!=l-1 { buf.WriteRune(',') }
+		fmt.Println(buf.String())
+	}
+	buf.WriteRune('}')
+	fmt.Println(buf.String())
+	return buf.Bytes(),nil
+}
+
 type MetaDbFunc func(recorder *httptest.ResponseRecorder, r *http.Request, db *gorm.DB) error
 
 func (this *MetaDb) Handler(f MetaDbFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, request *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 
-		var resp interface{} = nil
+		var legitResp interface{} = nil // the legitimate response that is used by the http client
 
 		err := f(this.Recorder, request, this.Db)
+		var prelimResp = this.Recorder.Body.Bytes() // pre-liminary response before any middleware introduction
+		log.Println("prelim resp",string(prelimResp))
 		if err != nil {
+			/*
+				If there is an error, then we should be assuming there is a corresponding 4XX http status code
+			    (Bad request)
+			 */
 			err := err.(*errs.Error)
 			this.Recorder.WriteHeader(err.Status())
-			resp = err.Root().Error()
-		} else if this.Recorder.Body.Bytes() != nil {
-			err := json.Unmarshal(this.Recorder.Body.Bytes(), &resp)
+			legitResp = err.Root().Error()
+
+		} else if prelimResp != nil {
+			/* Basically, this is executed when the http request was 2XX (Successful),
+				We unmarshal the json into
+			*/
+
+				log.Println(string(prelimResp))
+			/*
+			 Unmarshalls JSON array/object (prelimResp) into golang array/struct (legitResp)
+			*/
+			err := json.Unmarshal(prelimResp, &legitResp)
 			if err != nil {
 				log.Println("Error unmarshalling JSON: ", err)
 			}
 		}
 
 		// Write the response to buffer
-		w.Write(this.manufactureResponse(resp, request))
+		w.Write(this.manufactureResponse(legitResp, request))
 
 		// Clear the buffer for next API request
 		this.Recorder = httptest.NewRecorder()
@@ -50,25 +99,24 @@ func (this *MetaDb) Handler(f MetaDbFunc) http.HandlerFunc {
 
 /* Manufactures the JSON response to be returned to the client */
 func (this *MetaDb) manufactureResponse(response interface{}, request *http.Request) []byte {
-	responseStruct := Response{
-		Status:   this.Recorder.Code,
-		Response: response,
-	}
+	structResponse := newResponse(this.Recorder.Code, response)
+	log.Println(structResponse)
 
-	// Raw JSON to be returned
-	jsonResp, err := json.Marshal(&responseStruct)
+	// Encodes golang structResponse into Raw JSON to be returned to the http client
+	jsonResp, err := json.Marshal(&structResponse)
 	if err != nil {
-		log.Println("Error marshalling GenericResponse into json!:", err)
+		log.Println("Error marshalling Response into json!:", err)
 	}
 
-	// If the user wants the output pretty, indent the raw json.
+	log.Println("jsonResp prelim:", string(jsonResp))
+	// If the client wants the output pretty, indent the raw json.
 	prettify, ok := request.URL.Query()["prettify"]
-	log.Println("Prettify? ", ok)
 	if ok {
 		if prettify[0] == "true" {
 			jsonResp = Prettify(request, jsonResp)
 		}
 	}
 
+	log.Println("json Resp:", string(jsonResp))
 	return jsonResp
 }

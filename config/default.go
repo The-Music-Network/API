@@ -8,7 +8,6 @@ import (
 func DefaultConfig() *Config {
 	conf := &Config{
 		SQLite: SQLite{
-			UseMemory: false,
 			FilePath:  "tmn-api.sqlite",
 		},
 		MySQL: MySQL{

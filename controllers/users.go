@@ -83,6 +83,7 @@ func GetUsers(recorder *httptest.ResponseRecorder, r *http.Request, db *gorm.DB)
 	if err != nil {
 		return errs.New(400, "Error marshalling users into JSON!: "+err.Error())
 	}
+	log.Println("json in GetUsers action:",string(json))
 	recorder.Write(json)
 
 	return nil

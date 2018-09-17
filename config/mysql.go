@@ -16,7 +16,7 @@ type MySQL struct {
 
 func (this *MySQL) ConnectionString() string {
 
-	return fmt.Sprintf("%s:%s@tcp(%s:%s)/%s",
+	return fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true",
 		this.Username,
 		this.Password,
 		this.Host,
