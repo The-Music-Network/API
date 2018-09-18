@@ -1,4 +1,4 @@
-package models
+package tracks
 
 type Track struct {
 	Id      uint   `json:"id"`

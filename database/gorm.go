@@ -1,7 +1,7 @@
 package database
 
 import (
-	"github.com/jaylevin/TMN-API/errs"
+	"github.com/The-Music-Network/TMN-API/errs"
 	"github.com/jinzhu/gorm"
 )
 
