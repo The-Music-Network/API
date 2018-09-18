@@ -2,3 +2,8 @@ tmn-api.json
 *.sh
 .idea
 main
+main.exe
+tmn-api
+tmn-api.exe
+*.sqlite
+vendor

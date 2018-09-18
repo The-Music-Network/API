@@ -1,11 +1,10 @@
-package controllers
+package users
 
 import (
 	"encoding/json"
 	"github.com/gorilla/mux"
-	"github.com/jaylevin/TMN-API/database"
-	"github.com/jaylevin/TMN-API/errs"
-	"github.com/jaylevin/TMN-API/models"
+	"github.com/The-Music-Network/TMN-API/database"
+	"github.com/The-Music-Network/TMN-API/errs"
 	"github.com/jinzhu/gorm"
 	"log"
 	"net/http"
@@ -31,11 +30,10 @@ import (
 
  *********************************************************************************************************************/
 func ShowUser(recorder *httptest.ResponseRecorder, r *http.Request, db *gorm.DB) error {
-
 	vars := mux.Vars(r)
 	id := vars["id"]
 
-	var table models.User
+	var table User
 	user, err := database.GetRecord(db, &table, id)
 	if err != nil {
 		return errs.Stack(err)
@@ -68,7 +66,7 @@ func ShowUser(recorder *httptest.ResponseRecorder, r *http.Request, db *gorm.DB)
  *********************************************************************************************************************/
 func GetUsers(recorder *httptest.ResponseRecorder, r *http.Request, db *gorm.DB) error {
 
-	users := make([]models.User, 0)
+	users := make([]User, 0)
 
 	queries, ok := r.URL.Query()["name"]
 	if ok && queries != nil{
@@ -108,7 +106,7 @@ func GetUsers(recorder *httptest.ResponseRecorder, r *http.Request, db *gorm.DB)
  *********************************************************************************************************************/
 func CreateUser(recorder *httptest.ResponseRecorder, r *http.Request, db *gorm.DB) error {
 
-	var user models.User
+	var user User
 
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
@@ -157,7 +155,7 @@ func UpdateUser(recorder *httptest.ResponseRecorder, r *http.Request, db *gorm.D
 		log.Println("Error converting string to integer:", err)
 	}
 
-	var table models.User
+	var table User
 	user, err := database.GetRecord(db, &table, id)
 	if err != nil {
 		return err
@@ -203,7 +201,7 @@ func DeleteUser(recorder *httptest.ResponseRecorder, r *http.Request, db *gorm.D
 	vars := mux.Vars(r)
 	id := vars["id"]
 
-	var table models.User
+	var table User
 	user, err := database.GetRecord(db, &table, id)
 	if err != nil {
 		return errs.Stack(err)
